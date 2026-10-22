@@ -425,6 +425,16 @@ body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
 .terr-zoombox{margin-top:22px}.terr-zoombox .terr-leg{margin-top:0}.terr-zoom{max-width:100%}
 .rot-mapa{pointer-events:none}
 
+.lente { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+.lente-b { display: inline-flex; align-items: center; gap: 10px; background: transparent; color: var(--texto); border: 2px solid var(--linha); padding: 8px 14px; min-height: 42px; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
+.lente-b:hover { border-color: var(--texto); }
+.lente-b.on { background: color-mix(in srgb, var(--acento) 22%, var(--superficie)); border-color: var(--acento); font-weight: 800; }
+.lente-sw { display: inline-block; width: 8px; height: 20px; transform: skewX(-22deg); flex: none; }
+.lente-p { color: var(--texto2); font-weight: 600; font-variant-numeric: tabular-nums; }
+.rk .trilho-rk.pilha { display: flex; overflow: hidden; }
+.rk .trilho-rk.pilha i { position: static; flex: none; height: 100%; clip-path: none; background-image: none; }
+.territorio .modos { display: none; }
+
 </style>
 </head>
 <body>
@@ -606,6 +616,7 @@ body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
           <p class="bi-tipo" id="bi-tipo"></p>
           <h2 class="bi-pergunta" id="bi-pergunta"></h2>
           <p class="bi-escala" id="bi-escala"></p>
+          <div class="lente" id="lente" role="group" aria-label="Escolher a resposta em foco ou ver quem lidera"></div>
 
           <div class="palco-rolagem"><svg id="campo-bi" class="campo campo-bi" role="img" aria-label="Gráfico de barras: uma barra por pessoa entrevistada"></svg>
             <svg id="faixas-bi" class="faixas" role="img" aria-label="Gráfico de faixas por localidade" hidden></svg>
@@ -888,7 +899,7 @@ body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
         if (r.forma !== '|' && (!lider || n > lider.n)) lider = { r: r.r, n: n, cor: cor(cores[r.r]) };
         if (r.r === foco) nf = n;
       });
-      return { u: u, li: li, N: N, lider: N ? lider : null, pct: N ? 100 * nf / N : 0, nf: nf, sel: li.length > 0 && li.every(function (i) { return S.sel.indexOf(i) >= 0; }) };
+      return { u: u, li: li, N: N, dist: q.respostas.map(function (r) { var n = li.reduce(function (a, i) { return a + r.n[i]; }, 0); return { r: r.r, n: n, pct: N ? 100 * n / N : 0 }; }).filter(function (d) { return d.n > 0; }).sort(function (a, b) { return b.n - a.n; }), lider: N ? lider : null, pct: N ? 100 * nf / N : 0, nf: nf, sel: li.length > 0 && li.every(function (i) { return S.sel.indexOf(i) >= 0; }) };
     });
   }
   function alternaUnidade(x) {
@@ -898,11 +909,18 @@ body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
   }
   function renderTerritorio() {
     var box = $('#territorio-bi'); box.innerHTML = ''; var M = S.d.mapa; if (!M) return;
-    var us = unidadesMapa(), foco = respEmFoco(), modo = S.modoMapa || (new Set(us.filter(function (x) { return x.lider; }).map(function (x) { return x.lider.r; })).size < 2 ? 'foco' : 'lider'), NS = 'http://www.w3.org/2000/svg';
+    var us = unidadesMapa(), foco = respEmFoco(), modo = S.resp ? 'foco' : 'lider', NS = 'http://www.w3.org/2000/svg';
     var max = Math.max.apply(null, us.map(function (x) { return x.pct; })) || 1;
-    function preenche(x) { if (!x.li.length) return 'var(--linha-suave)'; if (modo === 'lider') return x.lider ? x.lider.cor : NEUTRO; return 'color-mix(in srgb, var(--acento) ' + Math.round(Math.sqrt(x.pct / max) * 80 + 8) + '%, var(--superficie))'; }
-    function dica(x) { var f = $('#foco'); f.textContent = ''; var b = el('b', '', x.u.nome); f.appendChild(b);
-      f.appendChild(document.createTextNode(x.li.length ? ': ' + (modo === 'lider' && x.lider ? 'lidera ' + x.lider.r + ' (' + fmt(100 * x.lider.n / x.N) + '%)' : foco + ' ' + fmt(x.pct) + '%') + ' · ' + pessoas(x.N) + ' entrevistadas' + (x.N < BASE_PEQUENA ? ' · base pequena' : '') : ': sem localidade na pesquisa')); }
+    var sh = us.filter(function (x) { return x.lider; }).map(function (x) { return 100 * x.lider.n / x.N; }), smin = Math.min.apply(null, sh), smax = Math.max.apply(null, sh);
+    var pv = us.filter(function (x) { return x.li.length; }).map(function (x) { return x.pct; }), pmin = Math.min.apply(null, pv), pmax = Math.max.apply(null, pv);
+    function corDe(r) { for (var k = 0; k < S.grupos.length; k++) if (S.grupos[k].r === r) return S.grupos[k].cor; return NEUTRO; }
+    function preenche(x) {
+      if (!x.li.length) return 'var(--linha-suave)';
+      if (modo === 'lider') { if (!x.lider) return NEUTRO; var w = smax > smin ? 45 + 55 * (100 * x.lider.n / x.N - smin) / (smax - smin) : 80; return 'color-mix(in srgb, ' + x.lider.cor + ' ' + Math.round(w) + '%, var(--superficie))'; }
+      return 'color-mix(in srgb, ' + corDe(foco) + ' ' + Math.round(18 + 77 * (pmax > pmin ? (x.pct - pmin) / (pmax - pmin) : 1)) + '%, var(--superficie))';
+    }
+    function dica(x) { var f = $('#foco'); f.textContent = ''; f.appendChild(el('b', '', x.u.nome));
+      f.appendChild(document.createTextNode(x.li.length ? ': ' + x.dist.map(function (d) { return d.r + ' ' + fmt(d.pct) + '%'; }).join(' · ') + ' · ' + pessoas(x.N) + (x.N < BASE_PEQUENA ? ' · base pequena' : '') : ': sem localidade na pesquisa')); }
     function mapa(unidades, vb, rotulo) {
       var svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'terr'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', rotulo);
       var g = document.createElementNS(NS, 'g'); svg.appendChild(g);
@@ -912,8 +930,6 @@ body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
       });
       return { svg: svg, g: g };
     }
-    var topo = el('div', 'modos'); [['lider', 'Quem lidera'], ['foco', 'Resposta em foco']].forEach(function (m) { var b = el('button', '', m[1]); b.type = 'button'; b.setAttribute('aria-pressed', String(modo === m[0])); b.addEventListener('click', function () { S.modoMapa = m[0]; render(); }); topo.appendChild(b); });
-    box.appendChild(topo);
     var grade = el('div', 'terr-grade'), esq = el('div', 'terr-mapas');
     var all = mapa(us, null, 'Mapa do município de Jaguaquara'); all.svg.setAttribute('viewBox', '0 0 ' + M.w + ' ' + M.h); esq.appendChild(all.svg);
     us.forEach(function (x) { if (x.u.id === 'lagoa-nova' || x.u.id === 'itiuba') { var c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x.u.label[0]); c.setAttribute('cy', x.u.label[1]); c.setAttribute('r', 11); c.setAttribute('class', 'un marco' + (x.sel ? ' sel' : '')); c.style.fill = preenche(x); c.addEventListener('mouseenter', function () { dica(x); }); c.addEventListener('mouseleave', aplicaFoco); c.addEventListener('click', function () { alternaUnidade(x); }); all.g.appendChild(c); var t = document.createElementNS(NS, 'text'); t.setAttribute('x', x.u.label[0] + 16); t.setAttribute('y', x.u.label[1] + 5); t.setAttribute('class', 'rot-mapa'); t.textContent = x.u.nome; all.g.appendChild(t); } });
@@ -926,11 +942,11 @@ body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
     us.slice().sort(function (a, b) { return b.N - a.N; }).forEach(function (x) {
       var b = el('button', 'rk' + (x.sel ? ' on' : '') + (x.N && x.N < BASE_PEQUENA ? ' pequena' : '')); b.type = 'button'; if (!x.li.length) b.disabled = true;
       var nm = el('span', 'nome'); nm.textContent = x.u.nome + (x.li.length ? ' (' + x.N + ')' : ''); b.appendChild(nm);
-      var tr = el('span', 'trilho-rk'), i = el('i'); i.style.width = (modo === 'lider' ? 100 : 100 * x.pct / max) + '%'; if (modo === 'lider' && x.lider) i.style.background = x.lider.cor; tr.appendChild(i); b.appendChild(tr);
+      var tr = el('span', 'trilho-rk'); if (modo === 'lider') { tr.classList.add('pilha'); x.dist.forEach(function (d) { var s = el('i'); s.style.width = (100 * d.n / x.N) + '%'; s.style.background = corDe(d.r); tr.appendChild(s); }); } else { var i = el('i'); i.style.width = (100 * x.pct / max) + '%'; i.style.background = corDe(foco); tr.appendChild(i); } b.appendChild(tr);
       b.appendChild(el('span', 'v', !x.li.length ? '—' : modo === 'lider' ? (x.lider ? fmt(100 * x.lider.n / x.N) + '%' : '—') : fmt(x.pct) + '%')); b.appendChild(el('span', 'k', ''));
-      if (modo === 'lider' && x.lider) b.title = 'Lidera: ' + x.lider.r; b.addEventListener('mouseenter', function () { dica(x); }); b.addEventListener('mouseleave', aplicaFoco); b.addEventListener('click', function () { alternaUnidade(x); }); dir.appendChild(b);
+      if (x.li.length) b.title = x.dist.map(function (d) { return d.r + ' ' + fmt(d.pct) + '%'; }).join('\n'); b.addEventListener('mouseenter', function () { dica(x); }); b.addEventListener('mouseleave', aplicaFoco); b.addEventListener('click', function () { alternaUnidade(x); }); dir.appendChild(b);
     });
-    dir.appendChild(el('p', 'rk-ajuda', modo === 'lider' ? 'Cor = resposta mais frequente em cada território (' + 'mesmas cores das barras). Clique para filtrar o painel.' : 'Intensidade = ' + fmt(max) + '% no território mais forte para “' + foco + '”. Clique para filtrar o painel.'));
+    dir.appendChild(el('p', 'rk-ajuda', modo === 'lider' ? 'Cor = quem lidera em cada território; quanto mais forte, maior a fatia do líder. A barra mostra todas as respostas. Escolha uma resposta acima para ver só ela.' : 'Intensidade = ' + fmt(max) + '% no território mais forte para “' + foco + '”. Clique para filtrar o painel.'));
     dir.appendChild(zoomBox); grade.appendChild(dir); box.appendChild(grade);
     var bb = ins.g.getBBox(); if (bb.width) ins.svg.setAttribute('viewBox', [bb.x - 6, bb.y - 6, bb.width + 12, bb.height + 12].join(' '));
   }
@@ -947,6 +963,17 @@ body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
     foco.innerHTML = '<b></b>: ' + fmt(gr.pct) + '% <small></small>';
     foco.firstChild.textContent = gr.r;
     foco.querySelector('small').textContent = '(' + pessoas(gr.n) + ' de ' + N + ' · no geral: ' + fmt(gr.geral) + '%' + (S.sel.length ? ' · diferença: ' + sinal(gr.delta) + ' p.p.' : '') + ')';
+  }
+  function renderLente() {
+    var box = $('#lente'); box.innerHTML = '';
+    function bt(rot, pct, cor, on, fn, ajuda) {
+      var b = el('button', 'lente-b' + (on ? ' on' : '')); b.type = 'button'; b.setAttribute('aria-pressed', String(on));
+      if (cor) { var s = el('span', 'lente-sw'); s.style.background = cor; b.appendChild(s); }
+      b.appendChild(el('span', 'lente-n', rot)); if (pct != null) b.appendChild(el('span', 'lente-p', fmt(pct) + '%'));
+      if (ajuda) b.title = ajuda; b.addEventListener('click', fn); box.appendChild(b);
+    }
+    bt('Quem lidera', null, null, !S.resp, function () { S.resp = null; render(); }, 'Mostra a resposta mais frequente em cada lugar');
+    S.grupos.forEach(function (g) { bt(g.r, g.pct, g.cor, S.resp === g.r, function () { S.resp = S.resp === g.r ? null : g.r; render(); }); });
   }
   function setFoco(g) { S.foco = g; aplicaFoco(); }
   function escolheResp(gi) { var r = S.grupos[gi] ? S.grupos[gi].r : null; S.resp = S.resp === r ? null : r; render(); }
@@ -1051,7 +1078,7 @@ body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
   function render() {
     S.grupos = gruposDe(S.q); S.foco = null;
     if (S.resp && idxResp() == null) S.resp = null;     // a resposta em foco não existe neste recorte ou pergunta
-    renderCabecalho(); renderFiltros(); renderLista(); renderNumeros(); renderRanking(); renderGeral();
+    renderCabecalho(); renderLente(); renderFiltros(); renderLista(); renderNumeros(); renderRanking(); renderGeral();
     var v = S.vista;
     $('#campo-bi').toggleAttribute('hidden', v !== 'pessoas'); $('#faixas-bi').toggleAttribute('hidden', v !== 'faixas'); $('#mapa-bi').toggleAttribute('hidden', v !== 'mapa'); $('#territorio-bi').toggleAttribute('hidden', v !== 'territorio');
     if (v === 'pessoas') renderPessoas(); else if (v === 'faixas') renderFaixas(); else if (v === 'territorio') renderTerritorio(); else renderMapa();
