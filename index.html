@@ -347,6 +347,64 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
 @media (max-width: 899px) { .passos { grid-template-columns: 1fr; } .menu-publico .rot { font-size: 11px; } }
 @media (max-width: 899px) { .abertura { grid-template-rows: auto auto auto; } .campo-wrap { min-height: 0; } }
 
+/* filtros cruzados */
+.filtros { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; }
+.filtros .rotulo { color: var(--texto2); font-weight: 600; }
+.filtros button { display: inline-flex; gap: 8px; align-items: center; min-height: 34px; padding: 2px 10px; background: var(--superficie); border: 2px solid var(--acento-texto); cursor: pointer; font-weight: 600; }
+.filtros button.limpar { border-color: var(--linha); background: none; }
+.filtros button:hover { border-color: var(--texto); }
+.chips button[aria-pressed="true"] .mini { opacity: 1; }
+.mapa { overflow-x: auto; }
+.mapa table { border-collapse: separate; border-spacing: 2px; font-variant-numeric: tabular-nums; min-width: 100%; }
+.mapa th, .mapa td { padding: 6px 8px; font-size: 14px; text-align: right; }
+.mapa thead th { vertical-align: bottom; font-weight: 700; text-align: center; max-width: 120px; }
+.mapa thead th button, .mapa tbody th button { background: none; border: 0; cursor: pointer; font-weight: 700; text-align: inherit; padding: 2px 0; width: 100%; }
+.mapa thead th.on button { color: var(--acento-texto); text-decoration: underline; text-underline-offset: 4px; }
+.mapa tbody th { text-align: left; font-weight: 600; white-space: nowrap; }
+.mapa tbody th small { color: var(--texto2); font-weight: 400; margin-left: 6px; }
+.mapa tbody tr.on th { color: var(--acento-texto); }
+.mapa td { background: color-mix(in srgb, var(--acento) calc(var(--t) * 72%), var(--superficie)); min-width: 64px; }
+.mapa td.col-on { outline: 2px solid var(--texto); outline-offset: -2px; }
+.mapa tr.pequena td { opacity: .6; }
+.mapa tr.geral th, .mapa tr.geral td { border-bottom: 2px solid var(--linha); }
+body[data-paleta="laranja"] .mapa td { color: #F2F2F0; }
+.bi-ranking, .bi-geral { margin-top: 44px; }
+.bi-ranking h3, .bi-geral h3 { margin: 0 0 6px; font-size: 22px; font-stretch: 75%; font-weight: 800; text-transform: uppercase; line-height: 1.05; }
+.rk-ajuda { margin: 0 0 14px; color: var(--texto2); font-size: 15px; }
+.ranking { display: grid; max-width: 860px; }
+.rk { display: grid; grid-template-columns: minmax(120px, 230px) minmax(0, 1fr) 62px 40px; gap: 10px; align-items: center; min-height: 40px; padding: 3px 6px; background: none; border: 0; border-top: 1px solid var(--linha-suave); cursor: pointer; text-align: left; width: 100%; }
+.rk:hover { background: var(--superficie); }
+.rk.on { background: var(--superficie); box-shadow: inset 5px 0 0 var(--acento); }
+.rk .nome { overflow-wrap: anywhere; font-size: 15px; }
+.rk .trilho-rk { height: 14px; background: var(--linha-suave); position: relative; }
+.rk .trilho-rk i { position: absolute; inset: 0 auto 0 0; background: var(--acento); clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%); }
+.rk.pequena .trilho-rk i { background: repeating-linear-gradient(115deg, var(--acento) 0 5px, transparent 5px 9px); }
+.rk .v { font-weight: 800; text-align: right; font-variant-numeric: tabular-nums; }
+.rk .k { text-align: right; color: var(--texto2); font-size: 14px; font-variant-numeric: tabular-nums; }
+.visao-geral { display: grid; max-width: 980px; }
+.vg { display: grid; grid-template-columns: 34px minmax(0, 1.6fr) minmax(0, 1fr) 70px 70px; gap: 10px; align-items: center; padding: 8px 6px; min-height: 52px; background: none; border: 0; border-top: 1px solid var(--linha-suave); cursor: pointer; text-align: left; width: 100%; }
+.vg:hover, .vg.on { background: var(--superficie); }
+.vg .nq { font-stretch: 62%; font-weight: 800; font-size: 24px; color: var(--acento-texto); }
+body[data-paleta="laranja"] .vg .nq { color: #F2F2F0; }
+.vg .q { font-size: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.vg .r { font-weight: 600; overflow-wrap: anywhere; }
+.vg .p { font-weight: 800; text-align: right; font-variant-numeric: tabular-nums; }
+.vg .dl, .linha-resp .dl { text-align: right; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--texto2); }
+.dl.pos { color: var(--acento-texto); font-weight: 700; } .dl.neg { color: var(--texto); font-weight: 700; }
+body[data-paleta="laranja"] .dl.pos { text-decoration: underline; }
+.linha-resp { grid-template-columns: 34px minmax(0, 1fr) 84px 64px 52px; }
+.linha-resp.foco-resp { background: var(--superficie); box-shadow: inset 5px 0 0 var(--acento); }
+@media (max-width: 899px) {
+  .rk { grid-template-columns: minmax(90px, 1fr) minmax(60px, 1fr) 54px 32px; gap: 6px; }
+  .vg { grid-template-columns: 28px minmax(0, 1fr) 62px 56px; } .vg .r { grid-column: 2 / 3; grid-row: 2; font-size: 14px; color: var(--texto2); } .vg .q { grid-column: 2; } .vg .p { grid-row: 1 / 3; grid-column: 3; } .vg .dl { grid-row: 1 / 3; grid-column: 4; }
+  .linha-resp { grid-template-columns: 28px minmax(0, 1fr) 62px 44px 40px; gap: 6px; }
+}
+.mapa th, .mapa td { padding: 5px 6px; font-size: 13px; }
+.mapa thead th { min-width: 84px; white-space: normal; }
+.mapa thead th button { white-space: normal; overflow-wrap: anywhere; line-height: 1.15; }
+.mapa tbody th { white-space: normal; min-width: 150px; }
+.mapa td { min-width: 52px; }
+
 </style>
 </head>
 <body>
@@ -514,10 +572,12 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
             <select id="q-sel"></select>
             <button type="button" id="q-prox" aria-label="Próxima pergunta">›</button>
           </div>
-          <div class="chips" id="chips" role="group" aria-label="Recorte por localidade"></div>
+          <div class="chips" id="chips" role="group" aria-label="Recorte por localidade (escolha uma ou mais)"></div>
+          <div class="filtros" id="filtros" hidden></div>
           <div class="vistas" role="group" aria-label="Forma de ver">
             <button type="button" data-vista="pessoas" aria-pressed="true">Pessoas</button>
             <button type="button" data-vista="faixas" aria-pressed="false">Faixas</button>
+            <button type="button" data-vista="mapa" aria-pressed="false">Tabela</button>
           </div>
         </section>
 
@@ -527,7 +587,8 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
           <p class="bi-escala" id="bi-escala"></p>
 
           <div class="palco-rolagem"><svg id="campo-bi" class="campo campo-bi" role="img" aria-label="Gráfico de barras: uma barra por pessoa entrevistada"></svg>
-            <svg id="faixas-bi" class="faixas" role="img" aria-label="Gráfico de faixas por localidade" hidden></svg></div>
+            <svg id="faixas-bi" class="faixas" role="img" aria-label="Gráfico de faixas por localidade" hidden></svg>
+            <div id="mapa-bi" class="mapa" hidden></div></div>
 
           <p class="foco" id="foco" aria-live="polite">Passe o cursor sobre as barras, ou toque, para ver o que cada grupo respondeu.</p>
           <p class="aviso-base" id="aviso-base" hidden></p>
@@ -537,6 +598,17 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
           <div class="num"><span class="num-rot">Resposta mais frequente</span><b id="n-lider"></b><span id="n-lider-det"></span></div>
           <div class="num"><span class="num-rot">Sem posição</span><b id="n-neutro"></b><span id="n-neutro-det"></span></div>
           <div class="num num-destaque"><span class="num-rot">O que difere do geral</span><b id="n-dif"></b><span id="n-dif-det"></span></div>
+        </section>
+
+        <section class="bi-ranking" aria-label="Onde a resposta em foco é mais forte">
+          <h3 id="rk-titulo"></h3>
+          <p class="rk-ajuda">Clique numa localidade para filtrar o painel inteiro. Clique de novo para tirar.</p>
+          <div id="ranking" class="ranking"></div>
+        </section>
+
+        <section class="bi-geral" aria-label="Todas as perguntas neste recorte">
+          <h3>Todas as perguntas neste recorte</h3>
+          <div id="visao-geral" class="visao-geral"></div>
         </section>
 
         <section class="bi-tabela" aria-label="Respostas em tabela">
@@ -630,7 +702,8 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
 
 </script>
 <script>
-/* Painel do contratante: uma barra por pessoa entrevistada, agrupadas pela resposta.
+/* Painel do contratante: uma barra por pessoa entrevistada, com filtros cruzados.
+   Recorte = uma ou mais localidades (as contagens se somam). Resposta em foco = filtra o que está em destaque em todos os visuais.
    Recebe o JSON de UMA pesquisa (o servidor só entrega a do dono do link).
    Programação e visual: Cíntia Vitorino */
 (function (w) {
@@ -638,18 +711,26 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
   var Campo = w.TMLCampo;
   var BASE_PEQUENA = 20;                         // abaixo disso o painel avisa
   var NEUTRO = 'var(--neutro)', OUTRAS = 'var(--c-outras)';
-  var S = { d: null, q: 0, loc: 0, vista: 'pessoas', campo: null, grupos: [], foco: null, corMap: {}, iniciado: false };
+  var S = { d: null, q: 0, sel: [], resp: null, vista: 'pessoas', campo: null, grupos: [], foco: null, corMap: {}, iniciado: false };
 
   function $(s, r) { return (r || document).querySelector(s); }
   function fmt(v, d) { d = d == null ? 1 : d; return v.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function sinal(v) { return (v > 0 ? '+' : v < 0 ? '−' : '') + fmt(Math.abs(v)); }
   function cor(idx) { return idx == null || idx < 0 ? OUTRAS : 'var(--c' + (idx + 1) + ')'; }
   function pessoas(n) { return n + (n === 1 ? ' pessoa' : ' pessoas'); }
-
-  // "ESPONTÂNEA - não apresentar..." / "ESTIMULADA - randomizar..." são instruções do questionário: viram um rótulo
-  function limpa(texto) {
+  function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function limpa(texto) {                        // "ESPONTÂNEA - ..." / "ESTIMULADA - ..." são instruções do questionário: viram um rótulo
     var m = texto.match(/\s*(ESPONT[ÂA]NEA|ESTIMULADA)\b.*$/);
-    if (!m) return { texto: texto, tipo: '' };
-    return { texto: texto.slice(0, m.index).trim(), tipo: m[1].charAt(0) + m[1].slice(1).toLowerCase() };
+    return m ? { texto: texto.slice(0, m.index).trim(), tipo: m[1].charAt(0) + m[1].slice(1).toLowerCase() } : { texto: texto, tipo: '' };
+  }
+
+  /* ---------- recorte: soma das localidades escolhidas (vazio = geral) ---------- */
+  function baseN() { return S.sel.length ? S.sel.reduce(function (a, i) { return a + S.d.locais[i].n; }, 0) : S.d.n_total; }
+  function conta(r) { return S.sel.length ? S.sel.reduce(function (a, i) { return a + r.n[i]; }, 0) : r.n[0]; }
+  function nomeRecorte() {
+    if (!S.sel.length) return 'Geral';
+    var nomes = S.sel.map(function (i) { return S.d.locais[i].nome; });
+    return nomes.length <= 2 ? nomes.join(' + ') : nomes.length + ' localidades';
   }
 
   // cores estáveis: a mesma resposta tem a mesma cor em todas as perguntas e recortes
@@ -664,22 +745,24 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
     });
     return out;
   }
-
-  function gruposDe(qi, li) {
-    var q = S.d.perguntas[qi], N = S.d.locais[li].n, cores = coresDaPergunta(qi);
+  function gruposDe(qi) {
+    var q = S.d.perguntas[qi], N = baseN(), cores = coresDaPergunta(qi);
     var gs = q.respostas.map(function (r, i) {
-      return { i: i, r: r.r, forma: r.forma, n: r.n[li], pct: 100 * r.n[li] / N, geral: 100 * r.n[0] / S.d.n_total,
-               cor: r.forma === '|' ? NEUTRO : cor(cores[r.r]) };
+      var n = conta(r), pct = 100 * n / N, geral = 100 * r.n[0] / S.d.n_total;
+      return { i: i, r: r.r, forma: r.forma, n: n, pct: pct, geral: geral, delta: pct - geral, cor: r.forma === '|' ? NEUTRO : cor(cores[r.r]) };
     }).filter(function (g) { return g.n > 0; });
     var porN = function (a, b) { return b.n - a.n; };
-    var subs = gs.filter(function (g) { return g.forma !== '|'; }).sort(porN);
-    var neu = gs.filter(function (g) { return g.forma === '|'; }).sort(porN);
-    return subs.concat(neu);
+    return gs.filter(function (g) { return g.forma !== '|'; }).sort(porN).concat(gs.filter(function (g) { return g.forma === '|'; }).sort(porN));
+  }
+  function idxResp() { for (var k = 0; k < S.grupos.length; k++) if (S.grupos[k].r === S.resp) return k; return null; }
+  function respEmFoco() {                         // a resposta escolhida; se não houver, a mais frequente
+    var k = idxResp(); if (k != null) return S.grupos[k].r;
+    var subs = S.grupos.filter(function (g) { return g.forma !== '|'; }); return subs.length ? subs[0].r : (S.grupos[0] ? S.grupos[0].r : null);
   }
 
-  /* ---------- pessoas ---------- */
+  /* ---------- visão: pessoas ---------- */
   function renderPessoas() {
-    var svg = $('#campo-bi'), wrap = svg.parentNode, N = S.d.locais[S.loc].n, gs = S.grupos;
+    var svg = $('#campo-bi'), wrap = svg.parentNode, N = baseN(), gs = S.grupos;
     var W = Math.max(300, wrap.clientWidth);
     var R = Math.max(3, Math.min(22, Math.ceil(Math.sqrt(N * 0.6))));
     var cols = gs.map(function (g) { return Math.ceil(g.n / R); });
@@ -690,61 +773,50 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
     svg.setAttribute('width', largura); svg.setAttribute('height', H);
     if (!S.campo) S.campo = new Campo(svg, S.d.n_total);
     var campo = S.campo, sx = (0.42 * p) / 10, sy = (1.5 * p) / 40;
-
     var destinos = [], i = 0, c0 = 0.6;
     gs.forEach(function (g, gi) {
       for (var j = 0; j < g.n; j++, i++) {
         var col = Math.floor(j / R), row = j % R;
         destinos.push({ cx: (c0 + col + 0.5) * p, by: baseY - row * 1.8 * p - 0.1 * p, sx: sx, sy: sy, forma: g.forma, cor: g.cor, op: 1, g: gi, atraso: (i % 70) * 5 });
       }
-      g.x = c0 * p; g.larg = cols[gi] * p;
-      c0 += cols[gi] + gap;
+      g.x = c0 * p; g.larg = cols[gi] * p; c0 += cols[gi] + gap;
     });
-
-    if (!S.iniciado) {                           // 1ª vez: as barras nascem do chão
+    if (!S.iniciado) {
       destinos.forEach(function (o, k) { campo.poe(k, { cx: o.cx, by: o.by, sx: o.sx, sy: 0.01, forma: o.forma, cor: o.cor, op: 0, g: o.g, atraso: 0 }); });
-      svg.classList.add('livre'); void svg.getBoundingClientRect(); svg.classList.remove('livre');
-      S.iniciado = true;
+      svg.classList.add('livre'); void svg.getBoundingClientRect(); svg.classList.remove('livre'); S.iniciado = true;
     }
-    for (var k = 0; k < campo.n; k++) {
-      if (k < destinos.length) campo.poe(k, destinos[k]);
-      else campo.esconde(k);
-    }
-
-    // base e rótulos
+    for (var k = 0; k < campo.n; k++) { if (k < destinos.length) campo.poe(k, destinos[k]); else campo.esconde(k); }
     var antigo = svg.querySelector('.rotulos'); if (antigo) antigo.remove();
     var NS = 'http://www.w3.org/2000/svg', g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'rotulos');
     var linha = document.createElementNS(NS, 'line');
-    linha.setAttribute('class', 'base'); linha.setAttribute('x1', 0); linha.setAttribute('x2', largura); linha.setAttribute('y1', baseY + 4); linha.setAttribute('y2', baseY + 4);
-    g.appendChild(linha);
+    linha.setAttribute('class', 'base'); linha.setAttribute('x1', 0); linha.setAttribute('x2', largura); linha.setAttribute('y1', baseY + 4); linha.setAttribute('y2', baseY + 4); g.appendChild(linha);
     gs.forEach(function (gr) {
       if (gr.larg < 44) return;
-      var t = document.createElementNS(NS, 'text');
-      t.setAttribute('class', 'rot-grupo'); t.setAttribute('x', gr.x + gr.larg / 2); t.setAttribute('y', baseY + 24);
-      t.textContent = fmt(gr.pct) + '%'; g.appendChild(t);
+      var t = document.createElementNS(NS, 'text'); t.setAttribute('class', 'rot-grupo'); t.setAttribute('x', gr.x + gr.larg / 2); t.setAttribute('y', baseY + 24); t.textContent = fmt(gr.pct) + '%'; g.appendChild(t);
     });
     svg.appendChild(g);
-    aplicaFoco();
   }
 
-  /* ---------- faixas: largura da coluna = número de pessoas da localidade ---------- */
+  /* ---------- visão: faixas (largura da coluna = pessoas da localidade) ---------- */
   function renderFaixas() {
     var svg = $('#faixas-bi'), wrap = svg.parentNode, W = Math.max(300, wrap.clientWidth);
-    var NS = 'http://www.w3.org/2000/svg', H = 340, rotH = 190, gap = 3;
+    var NS = 'http://www.w3.org/2000/svg', H = 340, rotH = 190, gap = 3, x = 0;
     var locs = S.d.locais.map(function (l, i) { return { i: i, nome: l.nome, n: l.n }; }).slice(1).sort(function (a, b) { return b.n - a.n; });
-    var usable = W - gap * (locs.length - 1), x = 0, partes = [];
+    var usable = W - gap * (locs.length - 1);
     locs.forEach(function (l) { l.w = Math.max(15, usable * l.n / S.d.n_total); });
-    var soma = locs.reduce(function (a, l) { return a + l.w; }, 0) + gap * (locs.length - 1), largura = Math.max(W, soma);
-    svg.setAttribute('width', largura); svg.setAttribute('height', H + rotH);
-    svg.innerHTML = '';
+    var soma = locs.reduce(function (a, l) { return a + l.w; }, 0) + gap * (locs.length - 1), largura = Math.max(W, soma), foco = respEmFoco();
+    svg.setAttribute('width', largura); svg.setAttribute('height', H + rotH); svg.innerHTML = '';
+    var cores = coresDaPergunta(S.q), q = S.d.perguntas[S.q];
     locs.forEach(function (l) {
-      var gs = gruposDe(S.q, l.i), y = H, gr = document.createElementNS(NS, 'g');
-      gr.setAttribute('class', S.loc === l.i ? 'sel' : (S.loc !== 0 ? 'dim' : ''));
-      gs.forEach(function (g) {
-        var h = H * g.pct / 100; y -= h;
+      var gs = q.respostas.map(function (r, i) { return { i: i, r: r.r, forma: r.forma, n: r.n[l.i] }; }).filter(function (g) { return g.n > 0; });
+      var subs = gs.filter(function (g) { return g.forma !== '|'; }).sort(function (a, b) { return b.n - a.n; }), neu = gs.filter(function (g) { return g.forma === '|'; });
+      var y = H, gr = document.createElementNS(NS, 'g'), ativa = S.sel.indexOf(l.i) >= 0;
+      gr.setAttribute('class', ativa ? 'sel' : (S.sel.length ? 'dim' : ''));
+      subs.concat(neu).forEach(function (g) {
+        var h = H * g.n / l.n; y -= h;
         var r = document.createElementNS(NS, 'rect');
         r.setAttribute('class', 'seg'); r.setAttribute('x', x); r.setAttribute('y', y); r.setAttribute('width', l.w); r.setAttribute('height', Math.max(0, h));
-        r.style.fill = g.cor; r.dataset.loc = l.i; r.dataset.r = g.i; gr.appendChild(r);
+        r.style.fill = g.forma === '|' ? NEUTRO : cor(cores[g.r]); r.style.opacity = foco && g.r !== foco ? 0.4 : 1; r.dataset.loc = l.i; r.dataset.r = g.i; gr.appendChild(r);
       });
       var t = document.createElementNS(NS, 'text');
       t.setAttribute('transform', 'translate(' + (x + l.w / 2 + 4) + ',' + (H + 10) + ') rotate(90)');
@@ -753,85 +825,156 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
     });
   }
 
-  /* ---------- foco (passar o cursor, tocar) ---------- */
+  /* ---------- visão: mapa (localidade × resposta), clicável ---------- */
+  function renderMapa() {
+    var box = $('#mapa-bi'); box.innerHTML = '';
+    var q = S.d.perguntas[S.q], foco = respEmFoco();
+    var rs = q.respostas.map(function (r, i) { return { r: r, i: i }; });
+    var subs = rs.filter(function (x) { return x.r.forma !== '|'; }).sort(function (a, b) { return b.r.n[0] - a.r.n[0]; }), neu = rs.filter(function (x) { return x.r.forma === '|'; });
+    var cols = subs.slice(0, 7).concat(neu.slice(0, 1));
+    var locs = [0].concat(S.d.locais.map(function (l, i) { return i; }).slice(1).sort(function (a, b) { return S.d.locais[b].n - S.d.locais[a].n; }));
+    var max = 1; locs.forEach(function (li) { cols.forEach(function (c) { if (c.r.forma !== '|') max = Math.max(max, 100 * c.r.n[li] / S.d.locais[li].n); }); });
+    var tb = el('table'), th = el('thead'), tr = el('tr'); tr.appendChild(el('th'));
+    cols.forEach(function (c) {
+      var h = el('th', c.r.r === foco ? 'on' : ''), b = el('button', '', c.r.r); b.type = 'button'; b.title = 'Colocar em foco';
+      b.addEventListener('click', function () { S.resp = S.resp === c.r.r ? null : c.r.r; render(); }); h.appendChild(b); tr.appendChild(h);
+    });
+    th.appendChild(tr); tb.appendChild(th);
+    var tbd = el('tbody');
+    locs.forEach(function (li) {
+      var l = S.d.locais[li], on = li === 0 ? !S.sel.length : S.sel.indexOf(li) >= 0;
+      var row = el('tr', (on ? 'on ' : '') + (li === 0 ? 'geral ' : '') + (l.n < BASE_PEQUENA && li ? 'pequena' : ''));
+      var h = el('th'), b = el('button', '', l.nome); b.type = 'button'; b.title = li === 0 ? 'Voltar ao geral' : 'Incluir ou tirar do recorte';
+      b.addEventListener('click', function () { alterna(li); }); h.appendChild(b); h.appendChild(el('small', '', String(l.n))); row.appendChild(h);
+      cols.forEach(function (c) {
+        var pc = 100 * c.r.n[li] / l.n, td = el('td', c.r.r === foco ? 'col-on' : '', fmt(pc)); td.style.setProperty('--t', c.r.forma === '|' ? 0.12 : Math.sqrt(pc / max).toFixed(2));
+        td.title = l.nome + ' · ' + c.r.r + ': ' + fmt(pc) + '% (' + pessoas(c.r.n[li]) + ')'; row.appendChild(td);
+      });
+      tbd.appendChild(row);
+    });
+    tb.appendChild(tbd); box.appendChild(tb);
+  }
+
+  /* ---------- foco ao passar o cursor ---------- */
   function aplicaFoco() {
-    var g = S.foco;
+    var g = S.foco != null ? S.foco : idxResp();
     if (S.campo && S.vista === 'pessoas') {
-      for (var k = 0; k < S.campo.n; k++) {
-        var e = S.campo.els[k]; e.classList.toggle('apagada', g != null && String(e.dataset.g) !== String(g) && e.dataset.g !== '' );
-      }
+      for (var k = 0; k < S.campo.n; k++) { var e = S.campo.els[k]; e.classList.toggle('apagada', g != null && String(e.dataset.g) !== String(g) && e.dataset.g !== ''); }
     }
-    Array.prototype.forEach.call(document.querySelectorAll('.linha-resp'), function (b) { b.classList.toggle('on', g != null && +b.dataset.g === g); });
-    var foco = $('#foco'), N = S.d.locais[S.loc].n;
-    if (g == null || !S.grupos[g]) { foco.textContent = 'Passe o cursor sobre as barras, ou toque, para ver o que cada grupo respondeu.'; return; }
-    var gr = S.grupos[g];
+    Array.prototype.forEach.call(document.querySelectorAll('.linha-resp'), function (b) { b.classList.toggle('on', S.foco != null && +b.dataset.g === S.foco); b.classList.toggle('foco-resp', +b.dataset.g === idxResp()); });
+    var foco = $('#foco'), N = baseN(), gr = g != null ? S.grupos[g] : null;
+    if (!gr) { foco.textContent = 'Passe o cursor sobre as barras. Clique numa resposta para colocá-la em foco em todos os visuais.'; return; }
     foco.innerHTML = '<b></b>: ' + fmt(gr.pct) + '% <small></small>';
     foco.firstChild.textContent = gr.r;
-    foco.querySelector('small').textContent = '(' + pessoas(gr.n) + ' de ' + N + ' · no geral: ' + fmt(gr.geral) + '%)';
+    foco.querySelector('small').textContent = '(' + pessoas(gr.n) + ' de ' + N + ' · no geral: ' + fmt(gr.geral) + '%' + (S.sel.length ? ' · diferença: ' + sinal(gr.delta) + ' p.p.' : '') + ')';
   }
   function setFoco(g) { S.foco = g; aplicaFoco(); }
+  function escolheResp(gi) { var r = S.grupos[gi] ? S.grupos[gi].r : null; S.resp = S.resp === r ? null : r; render(); }
 
-  /* ---------- lista, números e avisos ---------- */
+  /* ---------- filtros ---------- */
+  function alterna(li) {
+    if (li === 0) S.sel = [];
+    else { var k = S.sel.indexOf(li); if (k >= 0) S.sel.splice(k, 1); else S.sel.push(li); }
+    render();
+  }
+  function renderFiltros() {
+    var f = $('#filtros'); f.innerHTML = '';
+    if (!S.sel.length && !S.resp) { f.hidden = true; return; }
+    f.hidden = false; f.appendChild(el('span', 'rotulo', 'Filtros ativos:'));
+    S.sel.forEach(function (li) { var b = el('button', '', S.d.locais[li].nome + ' ×'); b.type = 'button'; b.setAttribute('aria-label', 'Tirar ' + S.d.locais[li].nome); b.addEventListener('click', function () { alterna(li); }); f.appendChild(b); });
+    if (S.resp) { var b = el('button', '', 'Resposta: ' + S.resp + ' ×'); b.type = 'button'; b.setAttribute('aria-label', 'Tirar o foco da resposta'); b.addEventListener('click', function () { S.resp = null; render(); }); f.appendChild(b); }
+    var l = el('button', 'limpar', 'Limpar tudo'); l.type = 'button'; l.addEventListener('click', function () { S.sel = []; S.resp = null; render(); }); f.appendChild(l);
+  }
+
+  /* ---------- lista, ranking, visão geral, números ---------- */
   function renderLista() {
     var box = $('#lista'); box.innerHTML = '';
     var subs = S.grupos.filter(function (g) { return g.forma !== '|'; }), neu = S.grupos.filter(function (g) { return g.forma === '|'; });
     function linha(g) {
-      var b = document.createElement('button'); b.type = 'button'; b.className = 'linha-resp'; b.dataset.g = S.grupos.indexOf(g);
+      var b = el('button', 'linha-resp'); b.type = 'button'; b.dataset.g = S.grupos.indexOf(g);
       var NS = 'http://www.w3.org/2000/svg', s = document.createElementNS(NS, 'svg');
-      s.setAttribute('width', 26); s.setAttribute('height', 28); s.setAttribute('viewBox', '0 0 30 32'); s.setAttribute('aria-hidden', 'true');
-      Campo.glifo(s, g.forma, g.cor); b.appendChild(s);
-      [['r', g.r], ['p', fmt(g.pct) + '%'], ['k', String(g.n)]].forEach(function (par) { var sp = document.createElement('span'); sp.className = par[0]; sp.textContent = par[1]; b.appendChild(sp); });
-      b.addEventListener('mouseenter', function () { setFoco(+b.dataset.g); });
-      b.addEventListener('mouseleave', function () { setFoco(null); });
-      b.addEventListener('focus', function () { setFoco(+b.dataset.g); });
-      b.addEventListener('blur', function () { setFoco(null); });
-      b.addEventListener('click', function () { setFoco(S.foco === +b.dataset.g ? null : +b.dataset.g); });
+      s.setAttribute('width', 26); s.setAttribute('height', 28); s.setAttribute('viewBox', '0 0 30 32'); s.setAttribute('aria-hidden', 'true'); Campo.glifo(s, g.forma, g.cor); b.appendChild(s);
+      b.appendChild(el('span', 'r', g.r)); b.appendChild(el('span', 'p', fmt(g.pct) + '%'));
+      b.appendChild(el('span', 'k', String(g.n)));
+      var d = el('span', 'dl' + (g.delta > 0.05 ? ' pos' : (g.delta < -0.05 ? ' neg' : '')), S.sel.length ? sinal(g.delta) : ''); d.title = 'Diferença para o geral, em pontos percentuais'; b.insertBefore(d, b.lastChild);
+      b.addEventListener('mouseenter', function () { setFoco(+b.dataset.g); }); b.addEventListener('mouseleave', function () { setFoco(null); });
+      b.addEventListener('focus', function () { setFoco(+b.dataset.g); }); b.addEventListener('blur', function () { setFoco(null); });
+      b.addEventListener('click', function () { escolheResp(+b.dataset.g); });
       box.appendChild(b);
     }
     subs.forEach(linha);
-    if (neu.length) { var sep = document.createElement('p'); sep.className = 'sep'; sep.textContent = 'Sem posição'; box.appendChild(sep); neu.forEach(linha); }
+    if (neu.length) { box.appendChild(el('p', 'sep', 'Sem posição')); neu.forEach(linha); }
+  }
+
+  function renderRanking() {
+    var q = S.d.perguntas[S.q], foco = respEmFoco(), box = $('#ranking'); box.innerHTML = '';
+    var r = q.respostas.filter(function (x) { return x.r === foco; })[0];
+    $('#rk-titulo').textContent = r ? 'Onde “' + r.r + '” pesa mais' : '';
+    if (!r) return;
+    var linhas = S.d.locais.map(function (l, i) { return { i: i, nome: l.nome, n: l.n, pct: 100 * r.n[i] / l.n, k: r.n[i] }; }).slice(1).sort(function (a, b) { return b.pct - a.pct; });
+    var max = Math.max.apply(null, linhas.map(function (x) { return x.pct; })) || 1;
+    var geral = 100 * r.n[0] / S.d.n_total;
+    box.appendChild(el('p', 'rk-ajuda', 'No geral: ' + fmt(geral) + '%. Barras tracejadas são bases com menos de ' + BASE_PEQUENA + ' pessoas.'));
+    linhas.forEach(function (x) {
+      var b = el('button', 'rk' + (S.sel.indexOf(x.i) >= 0 ? ' on' : '') + (x.n < BASE_PEQUENA ? ' pequena' : '')); b.type = 'button';
+      b.appendChild(el('span', 'nome', x.nome + ' (' + x.n + ')'));
+      var tr = el('span', 'trilho-rk'), i = el('i'); i.style.width = (100 * x.pct / max) + '%'; tr.appendChild(i); b.appendChild(tr);
+      b.appendChild(el('span', 'v', fmt(x.pct) + '%')); b.appendChild(el('span', 'k', String(x.k)));
+      b.addEventListener('click', function () { alterna(x.i); }); box.appendChild(b);
+    });
+  }
+
+  function renderGeral() {
+    var box = $('#visao-geral'); box.innerHTML = ''; var N = baseN();
+    S.d.perguntas.forEach(function (q, qi) {
+      var rs = q.respostas.map(function (r) { return { r: r.r, forma: r.forma, n: conta(r), geral: 100 * r.n[0] / S.d.n_total }; });
+      var subs = rs.filter(function (x) { return x.forma !== '|' && x.n > 0; }).sort(function (a, b) { return b.n - a.n; }), L = subs[0];
+      var b = el('button', 'vg' + (qi === S.q ? ' on' : '')); b.type = 'button';
+      b.appendChild(el('span', 'nq', String(qi + 1))); b.appendChild(el('span', 'q', limpa(q.texto).texto));
+      b.appendChild(el('span', 'r', L ? L.r : 'Sem posição')); b.appendChild(el('span', 'p', L ? fmt(100 * L.n / N) + '%' : '—'));
+      var d = L ? 100 * L.n / N - L.geral : 0; b.appendChild(el('span', 'dl' + (d > 0.05 ? ' pos' : (d < -0.05 ? ' neg' : '')), L && S.sel.length ? sinal(d) : ''));
+      b.addEventListener('click', function () { S.q = qi; render(); $('#bi-tipo').scrollIntoView({ behavior: 'smooth', block: 'start' }); }); box.appendChild(b);
+    });
   }
 
   function renderNumeros() {
-    var N = S.d.locais[S.loc].n, gs = S.grupos;
-    var subs = gs.filter(function (g) { return g.forma !== '|'; }), neu = gs.filter(function (g) { return g.forma === '|'; });
-    var L = subs[0];
+    var N = baseN(), gs = S.grupos;
+    var subs = gs.filter(function (g) { return g.forma !== '|'; }), neu = gs.filter(function (g) { return g.forma === '|'; }), L = subs[0];
     $('#n-lider').textContent = L ? fmt(L.pct) + '%' : '—';
     $('#n-lider-det').textContent = L ? L.r + ' · ' + pessoas(L.n) + ' de ' + N : 'Ninguém indicou uma opção nesta pergunta.';
     var nn = neu.reduce(function (a, g) { return a + g.n; }, 0);
     $('#n-neutro').textContent = fmt(100 * nn / N) + '%';
     $('#n-neutro-det').textContent = pessoas(nn) + ' de ' + N + ': não sabe, nenhum, branco/nulo ou regular';
-
-    var b = $('#n-dif'), det = $('#n-dif-det'); b.classList.remove('txt');
-    if (S.loc === 0) { b.textContent = '—'; det.textContent = 'Escolha uma localidade para comparar com o resultado geral.'; return; }
+    var b = $('#n-dif'), det = $('#n-dif-det');
+    if (!S.sel.length) { b.textContent = '—'; det.textContent = 'Escolha uma ou mais localidades para comparar com o resultado geral.'; return; }
     if (N < BASE_PEQUENA) { b.textContent = '—'; det.textContent = 'Base de ' + N + ' pessoas: pequena demais para destacar diferenças.'; return; }
     var pool = subs.length ? subs : gs, melhor = null;
-    pool.forEach(function (g) { var d = g.pct - g.geral; if (!melhor || Math.abs(d) > Math.abs(melhor.d)) melhor = { g: g, d: d }; });
+    pool.forEach(function (g) { if (!melhor || Math.abs(g.delta) > Math.abs(melhor.delta)) melhor = g; });
     if (!melhor) { b.textContent = '—'; det.textContent = ''; return; }
-    b.textContent = (melhor.d > 0 ? '+' : '−') + fmt(Math.abs(melhor.d)) + ' p.p.';
-    det.textContent = melhor.g.r + ': ' + fmt(melhor.g.pct) + '% aqui, ' + fmt(melhor.g.geral) + '% no geral';
+    b.textContent = sinal(melhor.delta) + ' p.p.';
+    det.textContent = melhor.r + ': ' + fmt(melhor.pct) + '% aqui, ' + fmt(melhor.geral) + '% no geral';
   }
 
   function renderCabecalho() {
-    var d = S.d, q = d.perguntas[S.q], N = d.locais[S.loc].n, t = limpa(q.texto);
+    var d = S.d, q = d.perguntas[S.q], N = baseN(), t = limpa(q.texto);
     var expl = t.tipo === 'Espontânea' ? 'nenhum nome é apresentado ao entrevistado' : (t.tipo === 'Estimulada' ? 'a ordem dos nomes é sorteada a cada entrevista' : '');
     $('#bi-tipo').textContent = 'Pergunta ' + (S.q + 1) + ' de ' + d.perguntas.length + (t.tipo ? ' · ' + t.tipo + ': ' + expl : '');
     $('#bi-pergunta').textContent = t.texto;
-    $('#bi-escala').textContent = 'Recorte: ' + d.locais[S.loc].nome + ' · ' + pessoas(N) + '. Cada barra é uma pessoa e vale ' + fmt(100 / N, 2) + '% desta base.';
+    $('#bi-escala').textContent = 'Recorte: ' + nomeRecorte() + ' · ' + pessoas(N) + '. ' + (S.vista === 'pessoas' ? 'Cada barra é uma pessoa e vale ' + fmt(100 / N, 2) + '% desta base.' : '');
     var av = $('#aviso-base');
-    if (N < BASE_PEQUENA) { av.hidden = false; av.textContent = 'Base pequena: ' + pessoas(N) + ' nesta localidade. Uma única pessoa muda o resultado em ' + fmt(100 / N) + ' pontos percentuais. Leia com cautela.'; }
-    else av.hidden = true;
+    if (N < BASE_PEQUENA) { av.hidden = false; av.textContent = 'Base pequena: ' + pessoas(N) + '. Uma única pessoa muda o resultado em ' + fmt(100 / N) + ' pontos percentuais. Leia com cautela.'; } else av.hidden = true;
     $('#q-sel').value = S.q;
-    Array.prototype.forEach.call(document.querySelectorAll('#chips button'), function (b) { b.setAttribute('aria-pressed', String(+b.dataset.i === S.loc)); });
+    Array.prototype.forEach.call(document.querySelectorAll('#chips button'), function (b) { var i = +b.dataset.i; b.setAttribute('aria-pressed', String(i === 0 ? !S.sel.length : S.sel.indexOf(i) >= 0)); });
     Array.prototype.forEach.call(document.querySelectorAll('.vistas button'), function (b) { b.setAttribute('aria-pressed', String(b.dataset.vista === S.vista)); });
   }
 
   function render() {
-    S.grupos = gruposDe(S.q, S.loc); S.foco = null;
-    renderCabecalho(); renderLista(); renderNumeros();
-    var pe = S.vista === 'pessoas';
-    $('#campo-bi').toggleAttribute('hidden', !pe); $('#faixas-bi').toggleAttribute('hidden', pe);
-    if (pe) renderPessoas(); else renderFaixas();
+    S.grupos = gruposDe(S.q); S.foco = null;
+    if (S.resp && idxResp() == null) S.resp = null;     // a resposta em foco não existe neste recorte ou pergunta
+    renderCabecalho(); renderFiltros(); renderLista(); renderNumeros(); renderRanking(); renderGeral();
+    var v = S.vista;
+    $('#campo-bi').toggleAttribute('hidden', v !== 'pessoas'); $('#faixas-bi').toggleAttribute('hidden', v !== 'faixas'); $('#mapa-bi').toggleAttribute('hidden', v !== 'mapa');
+    if (v === 'pessoas') renderPessoas(); else if (v === 'faixas') renderFaixas(); else renderMapa();
     aplicaFoco();
   }
 
@@ -840,50 +983,41 @@ body[data-paleta="laranja"] .passos b { color: #F2F2F0; }
   function monta() {
     if (montado) return; montado = true;
     var sel = $('#q-sel');
-    S.d.perguntas.forEach(function (q, i) { var o = document.createElement('option'); o.value = i; o.textContent = (i + 1) + '. ' + limpa(q.texto).texto; sel.appendChild(o); });
+    S.d.perguntas.forEach(function (q, i) { var o = el('option', '', (i + 1) + '. ' + limpa(q.texto).texto); o.value = i; sel.appendChild(o); });
     sel.addEventListener('change', function () { S.q = +sel.value; render(); });
     $('#q-ant').addEventListener('click', function () { S.q = (S.q - 1 + S.d.perguntas.length) % S.d.perguntas.length; render(); });
     $('#q-prox').addEventListener('click', function () { S.q = (S.q + 1) % S.d.perguntas.length; render(); });
-
-    var chips = $('#chips'), ordem = S.d.locais.map(function (l, i) { return i; });
-    ordem = [0].concat(ordem.slice(1).sort(function (a, b) { return S.d.locais[b].n - S.d.locais[a].n; }));
+    var chips = $('#chips'), ordem = [0].concat(S.d.locais.map(function (l, i) { return i; }).slice(1).sort(function (a, b) { return S.d.locais[b].n - S.d.locais[a].n; }));
     ordem.forEach(function (i) {
-      var l = S.d.locais[i], b = document.createElement('button'); b.type = 'button'; b.dataset.i = i;
-      var mini = document.createElement('span'); mini.className = 'mini'; mini.style.height = (8 + 20 * Math.sqrt(l.n / S.d.n_total)) + 'px';
-      var nome = document.createElement('span'); nome.textContent = l.nome;
-      var n = document.createElement('span'); n.className = 'n'; n.textContent = l.n;
-      b.appendChild(mini); b.appendChild(nome); b.appendChild(n);
-      b.addEventListener('click', function () { S.loc = i; render(); });
-      chips.appendChild(b);
+      var l = S.d.locais[i], b = el('button'); b.type = 'button'; b.dataset.i = i;
+      var mini = el('span', 'mini'); mini.style.height = (8 + 20 * Math.sqrt(l.n / S.d.n_total)) + 'px';
+      b.appendChild(mini); b.appendChild(el('span', '', l.nome)); b.appendChild(el('span', 'n', String(l.n)));
+      b.addEventListener('click', function () { alterna(i); }); chips.appendChild(b);
     });
-    Array.prototype.forEach.call(document.querySelectorAll('.vistas button'), function (b) {
-      b.addEventListener('click', function () { S.vista = b.dataset.vista; render(); });
-    });
+    Array.prototype.forEach.call(document.querySelectorAll('.vistas button'), function (b) { b.addEventListener('click', function () { S.vista = b.dataset.vista; render(); }); });
 
-    var svg = $('#campo-bi');
-    var sobre = function (e) { var t = e.target; if (t && t.classList && t.classList.contains('pessoa') && t.dataset.g !== '') setFoco(+t.dataset.g); };
-    svg.addEventListener('mouseover', sobre);
-    svg.addEventListener('click', function (e) { var t = e.target; if (t.classList && t.classList.contains('pessoa') && t.dataset.g !== '') setFoco(S.foco === +t.dataset.g ? null : +t.dataset.g); else setFoco(null); });
+    var svg = $('#campo-bi'), alvo = function (e) { var t = e.target; return t && t.classList && t.classList.contains('pessoa') && t.dataset.g !== '' ? +t.dataset.g : null; };
+    svg.addEventListener('mouseover', function (e) { var g = alvo(e); if (g != null) setFoco(g); });
+    svg.addEventListener('click', function (e) { var g = alvo(e); if (g != null) escolheResp(g); else { S.resp = null; render(); } });
     svg.addEventListener('mouseleave', function () { setFoco(null); });
 
     var fx = $('#faixas-bi');
     fx.addEventListener('mouseover', function (e) {
       var t = e.target; if (!t.classList || !t.classList.contains('seg')) return;
-      var li = +t.dataset.loc, l = S.d.locais[li], r = S.d.perguntas[S.q].respostas[+t.dataset.r];
-      var f = $('#foco'); f.innerHTML = '<b></b> — <span></span> <small></small>';
-      f.querySelector('b').textContent = l.nome; f.querySelector('span').textContent = r.r + ': ' + fmt(100 * r.n[li] / l.n) + '%';
+      var li = +t.dataset.loc, l = S.d.locais[li], r = S.d.perguntas[S.q].respostas[+t.dataset.r], f = $('#foco');
+      f.innerHTML = '<b></b> — <span></span> <small></small>'; f.querySelector('b').textContent = l.nome; f.querySelector('span').textContent = r.r + ': ' + fmt(100 * r.n[li] / l.n) + '%';
       f.querySelector('small').textContent = '(' + pessoas(r.n[li]) + ' de ' + l.n + ')';
     });
-    fx.addEventListener('mouseleave', function () { $('#foco').textContent = 'Passe o cursor sobre as faixas, ou toque. Clique numa coluna para escolher o recorte.'; });
-    fx.addEventListener('click', function (e) { var t = e.target; if (t.classList && t.classList.contains('seg')) { S.loc = +t.dataset.loc; render(); } });
+    fx.addEventListener('mouseleave', aplicaFoco);
+    fx.addEventListener('click', function (e) { var t = e.target; if (t.classList && t.classList.contains('seg')) alterna(+t.dataset.loc); });
 
-    var tm; w.addEventListener('resize', function () { clearTimeout(tm); tm = setTimeout(function () { if (!$('#vista-bi').hidden) { if (S.vista === 'pessoas') renderPessoas(); else renderFaixas(); } }, 160); });
+    var tm; w.addEventListener('resize', function () { clearTimeout(tm); tm = setTimeout(function () { if (!$('#vista-bi').hidden) { if (S.vista === 'pessoas') { renderPessoas(); aplicaFoco(); } else if (S.vista === 'faixas') renderFaixas(); } }, 160); });
   }
 
   function mostra(dados, opc) {
     opc = opc || {};
-    S.d = dados; S.q = 0; S.loc = 0; S.vista = 'pessoas';
-    if (!montado) { dados.perguntas.forEach(function (q, i) { coresDaPergunta(i); }); }  // fixa as cores na ordem do questionário
+    S.d = dados; S.q = 0; S.sel = []; S.resp = null; S.vista = 'pessoas';
+    if (!montado) dados.perguntas.forEach(function (q, i) { coresDaPergunta(i); });    // fixa as cores na ordem do questionário
     $('#bi-titulo').textContent = dados.titulo;
     $('#bi-sub').textContent = dados.municipio + ' · ' + dados.periodo + ' · ' + dados.n_total + ' entrevistas · ' + dados.tipo;
     $('#bi-cliente').textContent = opc.cliente || '';
